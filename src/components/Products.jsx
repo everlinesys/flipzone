@@ -1,61 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Heart, Star, Timer } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { getProducts } from "../services/productService";
+
 const Products = () => {
+  const handleProductClick = (id) => {
+    navigate(`/product/${id}`);
+  };
   const navigate = useNavigate();
   // Mock products data with real discount math
-  const initialProducts = [
-    {
-      id: 1,
-      title: 'Wireless Bluetooth Headset with ANC',
-      image: '🎧',
-      rating: 4.3,
-      reviews: '12,450',
-      price: 1499,
-      originalPrice: 3999,
-      tag: 'Top Deal',
-    },
-    {
-      id: 2,
-      title: 'Smart Fitness Watch AMOLED Display',
-      image: '⌚',
-      rating: 4.1,
-      reviews: '8,120',
-      price: 2199,
-      originalPrice: 5999,
-      tag: 'Trending',
-    },
-    {
-      id: 3,
-      title: 'Premium Leather Minimalist Wallet',
-      image: '💼',
-      rating: 4.5,
-      reviews: '2,340',
-      price: 499,
-      originalPrice: 1299,
-      tag: 'Hot Item',
-    },
-    {
-      id: 4,
-      title: 'Ergonomic Mechanical Gaming Keyboard',
-      image: '⌨️',
-      rating: 4.6,
-      reviews: '1,105',
-      price: 2499,
-      originalPrice: 4999,
-      tag: 'Best Seller',
-    },
-    {
-      id: 5,
-      title: 'Ultra Portable Power Bank 20000mAh',
-      image: '🔋',
-      rating: 4.2,
-      reviews: '24,890',
-      price: 1199,
-      originalPrice: 2999,
-      tag: 'Top Deal',
-    },
-  ];
+  const initialProducts = getProducts();
 
   // Simple countdown state for that Flipkart urgency feel
   const [timeLeft, setTimeLeft] = useState({ hours: 14, minutes: 32, seconds: 45 });
@@ -84,12 +38,12 @@ const Products = () => {
     <div className="max-w-6xl mx-auto px-2 sm:px-4 pb-12">
       {/* Container holding the white grid container */}
       <div className="bg-white rounded-sm shadow-sm border border-gray-100 overflow-hidden flex flex-col md:flex-row">
-        
+
         {/* Left Side: Urgent "Deals of the Day" Header Box */}
         <div className="p-5 flex flex-col justify-between items-start border-b md:border-b-0 md:border-r border-gray-100 min-w-[220px] bg-gradient-to-b from-blue-50/30 to-white">
           <div>
             <h3 className="text-xl font-bold text-gray-900 tracking-tight">Deals of the Day</h3>
-            
+
             {/* Countdown Clock */}
             <div className="flex items-center gap-1.5 mt-3 text-gray-500 font-medium text-sm">
               <Timer className="w-4 h-4 text-red-500 animate-pulse" />
@@ -108,7 +62,7 @@ const Products = () => {
             </div>
           </div>
 
-          <button onClick={()=>{
+          <button onClick={() => {
             navigate("products")
           }} className="mt-6 md:mt-0 bg-[#2874f0] text-white font-semibold text-xs uppercase tracking-wide px-5 py-2.5 rounded-sm shadow-sm hover:bg-[#1e57b8] transition-colors w-full md:w-auto text-center">
             View All
@@ -125,6 +79,7 @@ const Products = () => {
             return (
               <div
                 key={product.id}
+                onClick={() => handleProductClick(product.id)}
                 className="min-w-[190px] max-w-[210px] bg-white border border-transparent hover:border-gray-100 hover:shadow-xl transition-all duration-200 rounded p-3 flex flex-col justify-between relative group cursor-pointer"
               >
                 {/* Wishlist Button */}
@@ -136,9 +91,8 @@ const Products = () => {
                   className="absolute top-3 right-3 z-10 p-1.5 rounded-full bg-white/80 shadow-sm border border-gray-100 hover:bg-white transition-colors"
                 >
                   <Heart
-                    className={`w-4 h-4 transition-colors ${
-                      isWishlisted ? 'fill-red-500 stroke-red-500' : 'text-gray-400'
-                    }`}
+                    className={`w-4 h-4 transition-colors ${isWishlisted ? 'fill-red-500 stroke-red-500' : 'text-gray-400'
+                      }`}
                   />
                 </button>
 
@@ -150,8 +104,15 @@ const Products = () => {
                 )}
 
                 {/* Product Image Presenter */}
-                <div className="h-36 w-full flex items-center justify-center bg-gray-50/50 rounded-sm mb-3 group-hover:scale-105 transition-transform duration-200 select-none text-5xl">
+                {/* <div className="h-36 w-full flex items-center justify-center bg-gray-50/50 rounded-sm mb-3 group-hover:scale-105 transition-transform duration-200 select-none text-5xl">
                   {product.image}
+                </div> */}
+                <div className="h-36 w-full flex items-center justify-center bg-gray-50/50 rounded-sm mb-3 group-hover:scale-105 transition-transform duration-200 select-none">
+                  <img
+                    src={product.images[0]}
+                    alt={product.title}
+                    className="max-h-full max-w-full object-contain"
+                  />
                 </div>
 
                 {/* Info Bundle */}
