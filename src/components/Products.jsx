@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Heart, Star, Timer } from 'lucide-react';
-
+import { useNavigate } from 'react-router-dom';
 const Products = () => {
+  const navigate = useNavigate();
   // Mock products data with real discount math
   const initialProducts = [
     {
@@ -107,7 +108,9 @@ const Products = () => {
             </div>
           </div>
 
-          <button className="mt-6 md:mt-0 bg-[#2874f0] text-white font-semibold text-xs uppercase tracking-wide px-5 py-2.5 rounded-sm shadow-sm hover:bg-[#1e57b8] transition-colors w-full md:w-auto text-center">
+          <button onClick={()=>{
+            navigate("products")
+          }} className="mt-6 md:mt-0 bg-[#2874f0] text-white font-semibold text-xs uppercase tracking-wide px-5 py-2.5 rounded-sm shadow-sm hover:bg-[#1e57b8] transition-colors w-full md:w-auto text-center">
             View All
           </button>
         </div>
